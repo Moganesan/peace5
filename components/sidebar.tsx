@@ -48,7 +48,7 @@ const Sidebar = () => {
   );
 
   const wrapperClasses = classNames(
-    "h-screen px-4 z-20 pt-8 pb-4 bg-light flex justify-between flex-col",
+    "h-screen px-4 z-20 border-slate-600 text-primary border-r-2 pt-8 pb-4 border-1 bg-primaryBackground flex justify-between flex-col",
     {
       ["w-80"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
@@ -64,9 +64,9 @@ const Sidebar = () => {
 
   const getNavItemClasses = (menu: any) => {
     return classNames(
-      "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap",
+      "flex items-center cursor-pointer hover:bg-slate-800 hover:text-slate-400 rounded w-full overflow-hidden whitespace-nowrap",
       {
-        ["bg-light-lighter"]: activeMenu.id === menu.id,
+        ["bg-primary text-black"]: activeMenu.id === menu.id,
       }
     );
   };
@@ -95,14 +95,14 @@ const Sidebar = () => {
               </div>
             </div>
           </div>
-          {isCollapsible && (
+          {/* {isCollapsible && (
             <button
               className={collapseIconClasses}
               onClick={handleSidebarToggle}
             >
               <ChevronDoubleLeftIcon className="text-text w-5 h-5" />
             </button>
-          )}
+          )} */}
         </div>
 
         <div className="flex flex-col items-start mt-24">
@@ -117,22 +117,20 @@ const Sidebar = () => {
                   >
                     <div style={{ width: "2.5rem" }}>
                       {menu.label == "Home" ? (
-                        <HomeIcon className="text-text-light w-6 h-6" />
+                        <HomeIcon className="w-6 h-6" />
                       ) : menu.label == "Payment Cards" ? (
-                        <CreditCardIcon className="text-text-light w-6 h-6" />
+                        <CreditCardIcon className="w-6 h-6" />
                       ) : menu.label == "Bank Accounts" ? (
-                        <BuildingLibraryIcon className="text-text-light w-6 h-6" />
+                        <BuildingLibraryIcon className="w-6 h-6" />
                       ) : menu.label == "Wify Passwords" ? (
-                        <WifiIcon className="text-text-light w-6 h-6" />
+                        <WifiIcon className="w-6 h-6" />
                       ) : (
-                        <ClipboardDocumentCheckIcon className="text-text-light w-6 h-6" />
+                        <ClipboardDocumentCheckIcon className="w-6 h-6" />
                       )}
                     </div>
                     {!toggleCollapse && (
                       <span
-                        className={classNames(
-                          "text-md font-medium text-text-light"
-                        )}
+                        className={classNames("text-md text-3xl font-medium")}
                       >
                         {menu.label}
                       </span>
