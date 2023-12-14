@@ -10,6 +10,7 @@ import {
   ChevronDoubleLeftIcon,
   WifiIcon,
   ArrowRightOnRectangleIcon,
+  ClipboardDocumentCheckIcon,
 } from "@heroicons/react/24/outline";
 const menuItems: any = [
   {
@@ -21,17 +22,17 @@ const menuItems: any = [
   {
     id: 3,
     label: "Payment Cards",
-    link: "/paymentcards",
+    link: "/cards",
   },
   {
     id: 4,
     label: "Bank Accounts",
-    link: "/bankaccounts",
+    link: "/banks",
   },
   {
     id: 5,
-    label: "Wify Passwords",
-    link: "/wifypasswords",
+    label: "Documents",
+    link: "/documents",
   },
 ];
 
@@ -47,7 +48,7 @@ const Sidebar = () => {
   );
 
   const wrapperClasses = classNames(
-    "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
+    "h-screen px-4 z-20 pt-8 pb-4 bg-light flex justify-between flex-col",
     {
       ["w-80"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
@@ -124,7 +125,7 @@ const Sidebar = () => {
                       ) : menu.label == "Wify Passwords" ? (
                         <WifiIcon className="text-text-light w-6 h-6" />
                       ) : (
-                        <KeyIcon className="text-text-light w-6 h-6" />
+                        <ClipboardDocumentCheckIcon className="text-text-light w-6 h-6" />
                       )}
                     </div>
                     {!toggleCollapse && (
