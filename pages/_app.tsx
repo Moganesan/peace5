@@ -6,6 +6,8 @@ import { Web5ContextProvider } from "@/context/web5";
 import { AddPasswordModalContextProvider } from "@/components/addPassword/addPasswordModalContext";
 import { VT323 } from "next/font/google";
 import AddPasswordModal from "@/components/addPassword/addPasswordModal";
+import AddCardModal from "@/components/addCard/addCardModal";
+import { AddCardModalContextProvidet } from "@/components/addCard/addCardModalContext";
 
 const font = VT323({ subsets: ["latin"], weight: "400" });
 
@@ -16,11 +18,14 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Web5ContextProvider>
         <AddPasswordModalContextProvider>
-          <main className={font.className}>
-            <Component {...pageProps} />
-            <ReactQueryDevtools initialIsOpen />
-            <AddPasswordModal />
-          </main>
+          <AddCardModalContextProvidet>
+            <main className={font.className}>
+              <Component {...pageProps} />
+              <ReactQueryDevtools initialIsOpen />
+              <AddPasswordModal />
+              <AddCardModal />
+            </main>
+          </AddCardModalContextProvidet>
         </AddPasswordModalContextProvider>
       </Web5ContextProvider>
     </QueryClientProvider>
