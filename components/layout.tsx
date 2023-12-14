@@ -8,7 +8,9 @@ const Layout = ({ children }: WithChildren) => {
     <div className="h-screen flex flex-row justify-start">
       <Sidebar />
       <Header />
-      <div className="bg-primary flex-1 p-4 text-white">{children}</div>
+      <div className="bg-primaryBackground flex-1 p-4 text-white pt-20">
+        {children}
+      </div>
     </div>
   );
 };
