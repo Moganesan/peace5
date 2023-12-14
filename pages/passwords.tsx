@@ -1,12 +1,17 @@
 import Layout from "@/components/layout";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { useAddPasswordModalContext } from "@/components/addPassword/addPasswordModalContext";
 
 const Passwords = () => {
+  const { setShowAddPasswordModal } = useAddPasswordModalContext();
   return (
     <Layout>
       <div className="flex items-center justify-between">
         <h1 className="text-3xl">Passwords</h1>
-        <button className="border-2 p-4 text-xl">
+        <button
+          className="border-2 p-4 text-xl"
+          onClick={() => setShowAddPasswordModal(true)}
+        >
           <PlusIcon className="w-5 h-5" />
         </button>
       </div>
