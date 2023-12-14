@@ -17,7 +17,7 @@ module.exports = {
       blue: colors.blue,
       cyan: colors.cyan,
       logoColor: "#89F050",
-      primary: "#3B81F6",
+      primary: "#F4CE14",
       white: "#ffffff",
       text: {
         DEFAULT: "#1F2937",
