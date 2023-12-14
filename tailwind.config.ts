@@ -12,12 +12,13 @@ module.exports = {
     colors: {
       ...defaultTheme.colors,
       black: colors.black,
+      primaryBackground: "#1C1C1C",
       slate: colors.slate,
       green: colors.green,
       blue: colors.blue,
       cyan: colors.cyan,
       logoColor: "#89F050",
-      primary: "#F4CE14",
+      primary: "#FFEC18",
       white: "#ffffff",
       text: {
         DEFAULT: "#1F2937",
