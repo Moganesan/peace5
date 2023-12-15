@@ -8,7 +8,8 @@ import { VT323 } from "next/font/google";
 import AddPasswordModal from "@/components/addPassword/addPasswordModal";
 import AddCardModal from "@/components/addCard/addCardModal";
 import { AddCardModalContextProvidet } from "@/components/addCard/addCardModalContext";
-
+import AddBankModal from "@/components/banks/addBankModal";
+import { AddBankModalContextProvider } from "@/components/banks/addBankModalContext";
 const font = VT323({ subsets: ["latin"], weight: "400" });
 
 const queryClient = new QueryClient();
@@ -19,12 +20,15 @@ export default function App({ Component, pageProps }: AppProps) {
       <Web5ContextProvider>
         <AddPasswordModalContextProvider>
           <AddCardModalContextProvidet>
-            <main className={font.className}>
-              <Component {...pageProps} />
-              <ReactQueryDevtools initialIsOpen />
-              <AddPasswordModal />
-              <AddCardModal />
-            </main>
+            <AddBankModalContextProvider>
+              <main className={font.className}>
+                <Component {...pageProps} />
+                <ReactQueryDevtools initialIsOpen />
+                <AddPasswordModal />
+                <AddCardModal />
+                <AddBankModal />
+              </main>
+            </AddBankModalContextProvider>
           </AddCardModalContextProvidet>
         </AddPasswordModalContextProvider>
       </Web5ContextProvider>
