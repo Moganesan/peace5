@@ -1,15 +1,15 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useAddCardModal } from "./addCardModalContext";
+import { useAddBankModalContext } from "./addBankModalContext";
 import SwitchComponent from "../switch";
 
-const AddCardModal: FC = () => {
-  const { setShowAddCardModal, showAddCardModal } = useAddCardModal();
+const AddBankModal: FC = () => {
+  const { setShowAddBankModal, showAddBankModal } = useAddBankModalContext();
   return (
-    <Transition appear show={showAddCardModal} as={Fragment}>
+    <Transition appear show={showAddBankModal} as={Fragment}>
       <Dialog
         as="div"
-        onClose={() => setShowAddCardModal(false)}
+        onClose={() => setShowAddBankModal(false)}
         className="relative z-30"
       >
         <Transition.Child
@@ -40,38 +40,38 @@ const AddCardModal: FC = () => {
                   as="h3"
                   className="text-lg font-medium font-sans leading-6 text-gray-900"
                 >
-                  Add New Card
+                  Add New Bank
                 </Dialog.Title>
 
                 <div className="mt-4">
                   <div>
-                    <label>Name on Card</label>
+                    <label>Bank Name</label>
                     <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
                   </div>
                   <div className="mt-5">
-                    <label>Type</label>
+                    <label>Account Type</label>
                     <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
                   </div>
                   <div className="mt-5">
-                    <label>Number</label>
+                    <label>Rounting Number</label>
                     <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
                   </div>
                   <div className="mt-5">
-                    <label>Security Code</label>
+                    <label>Account Number</label>
                     <input
                       type="password"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
                   <div className="mt-5">
-                    <label>Start Date</label>
+                    <label>Swift Code</label>
                     <input
                       type="password"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
                   <div className="mt-5">
-                    <label>Expiration Date</label>
+                    <label>Branch Address</label>
                     <input
                       type="password"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
@@ -102,4 +102,4 @@ const AddCardModal: FC = () => {
   );
 };
 
-export default AddCardModal;
+export default AddBankModal;
