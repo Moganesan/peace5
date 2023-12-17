@@ -32,6 +32,7 @@ const Web5ContextProvider: FC<WithChildren> = ({ children }) => {
         const { web5, did } = await Web5.connect({ connectedDid: checkDid });
         setDid(did);
         setWeb5(web5);
+        console.log("Mydid", did);
         if (web5 && did) {
           await configureProtocol(web5, did);
         }
@@ -77,12 +78,32 @@ const Web5ContextProvider: FC<WithChildren> = ({ children }) => {
           schema: "https://moganesan.github.io/passwords",
           dataFormats: ["application/json"],
         },
+        cards: {
+          schema: "https://moganesan.github.io/cards",
+          dataFormats: ["application/json"],
+        },
+        documents: {
+          schema: "https://moganesan.github.io/documents",
+          dataFormats: ["application/json"],
+        },
       },
       structure: {
         passwords: {
           $actions: [
             { who: "anyone", can: "write" },
             { who: "author", of: "passwords", can: "read" },
+          ],
+        },
+        cards: {
+          $actions: [
+            { who: "anyone", can: "write" },
+            { who: "author", of: "cards", can: "read" },
+          ],
+        },
+        documents: {
+          $actions: [
+            { who: "anyone", can: "write" },
+            { who: "author", can: "read" },
           ],
         },
       },
