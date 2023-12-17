@@ -16,6 +16,7 @@ const AddCardModal: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { setShowAlertModal, setAlertTitle, setAlertMessage } =
     useAlertModalContext();
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   const saveCard = async () => {
     if (
@@ -53,7 +54,19 @@ const AddCardModal: FC = () => {
 
     const { status: myDidStatus } = await record.send(did);
     setLoading(false);
+    setSuccessMessage("Record Saved!");
+    resetInputField();
+
     console.log("Save Cards Status", myDidStatus);
+  };
+
+  const resetInputField = () => {
+    setCardName("");
+    setCardNumber(null);
+    setCardType("");
+    setSecurityCode(null);
+    setStartDate("");
+    setExpireDate("");
   };
   return (
     <Transition appear show={showAddCardModal} as={Fragment}>
@@ -152,6 +165,7 @@ const AddCardModal: FC = () => {
                       switchName="Autologin"
                     />
                   </div> */}
+                  <h1 className="mt-4">{successMessage}</h1>
                   <div className="mt-4">
                     <button className="bg-primaryBackground px-4 py-2 border-2">
                       Cancel
