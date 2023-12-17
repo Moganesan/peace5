@@ -19,6 +19,7 @@ const Passwords = () => {
 
   useEffect(() => {
     if (web5) {
+      console.log("Mydid", did);
       fetchPasswords();
     }
   }, [web5]);
@@ -58,8 +59,9 @@ const Passwords = () => {
           <PlusIcon className="w-5 h-5" />
         </button>
       </div>
+      {}
       <div className="grid grid-cols-5 gap-20 mt-10 grid-flow-row">
-        {setSavedPasswords.length &&
+        {savedPasswords ? (
           savedPasswords?.map((password: Password) => {
             return (
               <div className="border-2 w-64 p-5 cursor-pointer hover:scale-105 duration-500">
@@ -68,7 +70,10 @@ const Passwords = () => {
                 <p>{password.userName}</p>
               </div>
             );
-          })}
+          })
+        ) : (
+          <h1 className="text-xl">Loading...</h1>
+        )}
       </div>
     </Layout>
   );
