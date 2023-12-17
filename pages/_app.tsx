@@ -10,6 +10,9 @@ import AddCardModal from "@/components/addCard/addCardModal";
 import { AddCardModalContextProvidet } from "@/components/addCard/addCardModalContext";
 import AddBankModal from "@/components/banks/addBankModal";
 import { AddBankModalContextProvider } from "@/components/banks/addBankModalContext";
+import { AlertModalContextProvider } from "@/components/alert/alertModalContext";
+import AlertModal from "@/components/alert/alertModal";
+
 const font = VT323({ subsets: ["latin"], weight: "400" });
 
 const queryClient = new QueryClient();
@@ -18,19 +21,22 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Web5ContextProvider>
-        <AddPasswordModalContextProvider>
-          <AddCardModalContextProvidet>
-            <AddBankModalContextProvider>
-              <main className={font.className}>
-                <Component {...pageProps} />
-                <ReactQueryDevtools initialIsOpen />
-                <AddPasswordModal />
-                <AddCardModal />
-                <AddBankModal />
-              </main>
-            </AddBankModalContextProvider>
-          </AddCardModalContextProvidet>
-        </AddPasswordModalContextProvider>
+        <AlertModalContextProvider>
+          <AddPasswordModalContextProvider>
+            <AddCardModalContextProvidet>
+              <AddBankModalContextProvider>
+                <main className={font.className}>
+                  <Component {...pageProps} />
+                  <ReactQueryDevtools initialIsOpen />
+                  <AddPasswordModal />
+                  <AlertModal />
+                  <AddCardModal />
+                  <AddBankModal />
+                </main>
+              </AddBankModalContextProvider>
+            </AddCardModalContextProvidet>
+          </AddPasswordModalContextProvider>
+        </AlertModalContextProvider>
       </Web5ContextProvider>
     </QueryClientProvider>
   );
