@@ -130,7 +130,7 @@ const Sidebar = () => {
                     </div>
                     {!toggleCollapse && (
                       <span
-                        className={classNames("text-md text-3xl font-medium")}
+                        className={classNames("text-md text-xl font-medium")}
                       >
                         {menu.label}
                       </span>
