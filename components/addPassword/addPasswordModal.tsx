@@ -14,8 +14,10 @@ const AddPasswordModal: FC = () => {
   const [userName, setUserName] = useState<string>("");
   const [sitePassword, setSitePassword] = useState<string>("");
   const { did, web5, protocolDefinition } = useWeb5Context();
+  const [loading, setLoading] = useState(false);
 
   const savePassword = async () => {
+    setLoading(true);
     const { record } = await web5.dwn.records.create({
       store: false,
       data: {
@@ -33,10 +35,8 @@ const AddPasswordModal: FC = () => {
       },
     });
 
-    console.log("record", record);
-
     const { status: myDidStatus } = await record.send(did);
-    console.log(myDidStatus, "status");
+    setLoading(false);
   };
 
   return (
@@ -127,8 +127,10 @@ const AddPasswordModal: FC = () => {
                       Cancel
                     </button>
                     <button
-                      onClick={() => savePassword()}
-                      className="px-4 py-2 border-2 text-slate-950 bg-primary ml-2"
+                      onClick={() => !loading && savePassword()}
+                      className={`px-4 py-2 border-2 duration-500 ${
+                        loading && "animate-pulse"
+                      } text-slate-950 bg-primary ml-2`}
                     >
                       Save
                     </button>
