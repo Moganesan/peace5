@@ -11,16 +11,19 @@ import { WithChildren } from "@/helpers/reactHelper";
 type Props = {
   web5: any | null;
   did: any | null;
+  protocolDefinition: any | null;
 };
 
 const Web5Context = createContext<Props>({
   web5: null,
   did: null,
+  protocolDefinition: null,
 });
 
 const Web5ContextProvider: FC<WithChildren> = ({ children }) => {
   const [web5, setWeb5] = useState<any | null>();
   const [did, setDid] = useState<any | null>();
+  const [protocolDefinition, setProtocolDefinition] = useState<any>();
   const instantiateWeb5 = useCallback(async () => {
     const { Web5 } = await import("@web5/api");
     const checkDid = localStorage.getItem("mydid");
@@ -84,6 +87,7 @@ const Web5ContextProvider: FC<WithChildren> = ({ children }) => {
         },
       },
     };
+    setProtocolDefinition(peace5ProtocolDefinition);
     return peace5ProtocolDefinition;
   };
   const configureProtocol = async (web5: any, did: any) => {
@@ -111,7 +115,13 @@ const Web5ContextProvider: FC<WithChildren> = ({ children }) => {
     instantiateWeb5();
   }, []);
   return (
-    <Web5Context.Provider value={{ did: did, web5: web5 }}>
+    <Web5Context.Provider
+      value={{
+        did: did,
+        web5: web5,
+        protocolDefinition: protocolDefinition,
+      }}
+    >
       {children}
     </Web5Context.Provider>
   );
