@@ -2,11 +2,43 @@ import React, { FC, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAddPasswordModalContext } from "./addPasswordModalContext";
 import SwitchComponent from "../switch";
+import { useWeb5Context } from "@/context/web5/web5Context";
+import axios from "axios";
 
 const AddPasswordModal: FC = () => {
   const { setShowAddPasswordModal, showAddPasswordModal } =
     useAddPasswordModalContext();
   const [autoLogin, setAutoLogin] = useState(false);
+  const [url, setURL] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const [sitePassword, setSitePassword] = useState<string>("");
+  const { did, web5, protocolDefinition } = useWeb5Context();
+
+  const savePassword = async () => {
+    const { record } = await web5.dwn.records.create({
+      store: false,
+      data: {
+        url: url,
+        name: name,
+        userName: userName,
+        sitePassword: sitePassword,
+        autoLogin: autoLogin,
+      },
+      message: {
+        schema: protocolDefinition.types.passwords.schema,
+        protocol: protocolDefinition.protocol,
+        protocolPath: "passwords",
+        dataFormat: "application/json",
+      },
+    });
+
+    console.log("record", record);
+
+    const { status: myDidStatus } = await record.send(did);
+    console.log(myDidStatus, "status");
+  };
+
   return (
     <Transition appear show={showAddPasswordModal} as={Fragment}>
       <Dialog
@@ -48,19 +80,34 @@ const AddPasswordModal: FC = () => {
                 <div className="mt-4">
                   <div>
                     <label>URL</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <input
+                      value={url}
+                      onChange={(e) => setURL(e.target.value)}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    />
                   </div>
+
                   <div className="mt-5">
                     <label>Name</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    />
                   </div>
                   <div className="mt-5">
                     <label>Username</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <input
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    />
                   </div>
                   <div className="mt-5">
                     <label>Site Password</label>
                     <input
+                      value={sitePassword}
+                      onChange={(e) => setSitePassword(e.target.value)}
                       type="password"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
@@ -73,10 +120,16 @@ const AddPasswordModal: FC = () => {
                     />
                   </div>
                   <div className="mt-4">
-                    <button className="bg-primaryBackground px-4 py-2 border-2">
+                    <button
+                      onClick={() => setShowAddPasswordModal(false)}
+                      className="bg-primaryBackground px-4 py-2 border-2"
+                    >
                       Cancel
                     </button>
-                    <button className="px-4 py-2 border-2 text-slate-950 bg-primary ml-2">
+                    <button
+                      onClick={() => savePassword()}
+                      className="px-4 py-2 border-2 text-slate-950 bg-primary ml-2"
+                    >
                       Save
                     </button>
                   </div>
