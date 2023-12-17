@@ -1,10 +1,60 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAddCardModal } from "./addCardModalContext";
-import SwitchComponent from "../switch";
+import { useWeb5Context } from "@/context/web5";
+import { useAlertModalContext } from "@/components/alert/alertModalContext";
 
 const AddCardModal: FC = () => {
   const { setShowAddCardModal, showAddCardModal } = useAddCardModal();
+  const [cardName, setCardName] = useState<string>("");
+  const [cardType, setCardType] = useState<string>("");
+  const [cardNumber, setCardNumber] = useState<number | null>(null);
+  const [securityCode, setSecurityCode] = useState<number | null>(null);
+  const [startDate, setStartDate] = useState<string>("");
+  const [expireDate, setExpireDate] = useState<string>("");
+  const { did, web5, protocolDefinition } = useWeb5Context();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { setShowAlertModal, setAlertTitle, setAlertMessage } =
+    useAlertModalContext();
+
+  const saveCard = async () => {
+    if (
+      !cardName ||
+      !cardType ||
+      !cardNumber ||
+      !securityCode ||
+      !startDate ||
+      !expireDate
+    ) {
+      setAlertTitle("Invalid Card Details");
+      setAlertMessage("please fill all the required input fields.");
+      setShowAlertModal(true);
+      return;
+    }
+    setLoading(true);
+
+    const { record } = await web5.dwn.records.create({
+      store: false,
+      data: {
+        cardName: cardName,
+        cardType: cardType,
+        cardNumber: cardNumber,
+        securityCode: securityCode,
+        startDate: startDate,
+        expireDate: expireDate,
+      },
+      message: {
+        schema: protocolDefinition.types.cards.schema,
+        protocol: protocolDefinition.protocol,
+        protocolPath: "cards",
+        dataFormat: "application/json",
+      },
+    });
+
+    const { status: myDidStatus } = await record.send(did);
+    setLoading(false);
+    console.log("Save Cards Status", myDidStatus);
+  };
   return (
     <Transition appear show={showAddCardModal} as={Fragment}>
       <Dialog
@@ -46,19 +96,33 @@ const AddCardModal: FC = () => {
                 <div className="mt-4">
                   <div>
                     <label>Name on Card</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <input
+                      value={cardName}
+                      onChange={(e) => setCardName(e.target.value)}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    />
                   </div>
                   <div className="mt-5">
                     <label>Type</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <input
+                      value={cardType}
+                      onChange={(e) => setCardType(e.target.value)}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    />
                   </div>
                   <div className="mt-5">
                     <label>Number</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <input
+                      value={cardNumber?.toString()}
+                      onChange={(e) => setCardNumber(Number(e.target.value))}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    />
                   </div>
                   <div className="mt-5">
                     <label>Security Code</label>
                     <input
+                      value={securityCode?.toString()}
+                      onChange={(e) => setSecurityCode(Number(e.target.value))}
                       type="password"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
@@ -66,14 +130,18 @@ const AddCardModal: FC = () => {
                   <div className="mt-5">
                     <label>Start Date</label>
                     <input
-                      type="password"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      type="date"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
                   <div className="mt-5">
                     <label>Expiration Date</label>
                     <input
-                      type="password"
+                      value={expireDate}
+                      onChange={(e) => setExpireDate(e.target.value)}
+                      type="date"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
@@ -88,7 +156,12 @@ const AddCardModal: FC = () => {
                     <button className="bg-primaryBackground px-4 py-2 border-2">
                       Cancel
                     </button>
-                    <button className="px-4 py-2 border-2 text-slate-950 bg-primary ml-2">
+                    <button
+                      onClick={() => !loading && saveCard()}
+                      className={`px-4 py-2 border-2 duration-500 ${
+                        loading && "animate-pulse"
+                      } text-slate-950 bg-primary ml-2`}
+                    >
                       Save
                     </button>
                   </div>
