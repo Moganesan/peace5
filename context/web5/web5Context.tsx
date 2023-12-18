@@ -82,6 +82,10 @@ const Web5ContextProvider: FC<WithChildren> = ({ children }) => {
           schema: "https://moganesan.github.io/cards",
           dataFormats: ["application/json"],
         },
+        banks: {
+          schema: "https://moganesan.github.io/banks",
+          dataFormats: ["application/json"],
+        },
         documents: {
           schema: "https://moganesan.github.io/documents",
           dataFormats: ["application/json"],

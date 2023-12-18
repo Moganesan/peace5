@@ -1,1 +1,1 @@
-export * from "./web5Contex";
+export * from "./web5Context";
