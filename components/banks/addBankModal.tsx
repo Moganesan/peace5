@@ -157,7 +157,10 @@ const AddBankModal: FC = () => {
                   </div>
                   <h1 className="mt-4">{successMessage}</h1>
                   <div className="mt-4">
-                    <button className="bg-primaryBackground px-4 py-2 border-2">
+                    <button
+                      onClick={() => setShowAddBankModal(false)}
+                      className="bg-primaryBackground px-4 py-2 border-2"
+                    >
                       Cancel
                     </button>
                     <button

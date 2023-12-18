@@ -14,7 +14,7 @@ type Card = {
 };
 
 const Cards = () => {
-  const { setShowAddCardModal, showAddCardModal } = useAddCardModal();
+  const { setShowAddCardModal } = useAddCardModal();
   const { did, web5, protocolDefinition } = useWeb5Context();
   const [savedCards, setSavedCards] = useState<Card[] | null>(null);
 
