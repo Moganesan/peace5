@@ -29,6 +29,7 @@ const Passwords = () => {
       from: did,
       message: {
         filter: {
+          schema: "https://moganesan.github.io/passwords",
           protocol: protocolDefinition.protocol,
         },
       },
@@ -73,6 +74,9 @@ const Passwords = () => {
           })
         ) : (
           <h1 className="text-xl">Loading...</h1>
+        )}
+        {!savedPasswords?.length && (
+          <h1 className="text-xl">No Data Found...</h1>
         )}
       </div>
     </Layout>
