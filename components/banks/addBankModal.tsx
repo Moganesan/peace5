@@ -2,6 +2,7 @@ import React, { FC, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAddBankModalContext } from "./addBankModalContext";
 import { useAlertModalContext } from "@/components/alert/alertModalContext";
+import { useWeb5Context } from "@/context/web5";
 
 const AddBankModal: FC = () => {
   const { setShowAddBankModal, showAddBankModal } = useAddBankModalContext();
@@ -12,11 +13,14 @@ const AddBankModal: FC = () => {
   const [branchAddress, setBranchAddress] = useState<string>("");
   const { setAlertTitle, setAlertMessage, setShowAlertModal } =
     useAlertModalContext();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { web5, did, protocolDefinition } = useWeb5Context();
+  const [successMessage, setSuccessMessage] = useState<string>("");
+
   const saveBankDetails = async () => {
-    console.log(accountType.length);
     if (
       !bankName ||
-      accountType.length == 0 ||
+      accountType.length <= 0 ||
       !accountNumber ||
       !swiftCode ||
       !branchAddress
@@ -26,6 +30,37 @@ const AddBankModal: FC = () => {
       setShowAlertModal(true);
       return;
     }
+    setLoading(true);
+    const { record } = await web5.dwn.records.create({
+      store: false,
+      data: {
+        bankName: bankName,
+        accountType: accountType,
+        accountNumber: accountNumber,
+        swiftCode: swiftCode,
+        branchAddress: branchAddress,
+      },
+      message: {
+        schema: protocolDefinition.types.banks.schema,
+        protocol: protocolDefinition.protocol,
+        protocolPath: "banks",
+        dataFormat: "application/json",
+      },
+    });
+
+    const { status: myDidStatus } = await record.send(did);
+    console.log("Status", myDidStatus);
+    setSuccessMessage("Record Saved!");
+    resetInputs();
+    setLoading(false);
+  };
+
+  const resetInputs = () => {
+    setBankName("");
+    setAccountType("");
+    setAccountNumber("");
+    setSwiftCode("");
+    setBranchAddress("");
   };
   return (
     <Transition appear show={showAddBankModal} as={Fragment}>
@@ -115,6 +150,7 @@ const AddBankModal: FC = () => {
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
+                  <h1 className="mt-4">{successMessage}</h1>
                   <div className="mt-4">
                     <button className="bg-primaryBackground px-4 py-2 border-2">
                       Cancel
