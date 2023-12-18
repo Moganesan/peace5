@@ -54,6 +54,11 @@ const AddBankModal: FC = () => {
     resetInputs();
     setLoading(false);
   };
+  useEffect(() => {
+    if (!showAddBankModal) {
+      setSuccessMessage("");
+    }
+  }, [showAddBankModal]);
 
   const resetInputs = () => {
     setBankName("");
