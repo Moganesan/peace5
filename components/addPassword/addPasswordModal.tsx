@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAddPasswordModalContext } from "./addPasswordModalContext";
 import SwitchComponent from "../switch";
@@ -18,6 +18,7 @@ const AddPasswordModal: FC = () => {
   const [loading, setLoading] = useState(false);
   const { setShowAlertModal, setAlertTitle, setAlertMessage } =
     useAlertModalContext();
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   const savePassword = async () => {
     if (!url || !name || !userName || !sitePassword) {
@@ -45,8 +46,15 @@ const AddPasswordModal: FC = () => {
     });
 
     const { status: myDidStatus } = await record.send(did);
+    setSuccessMessage("Record Saved!");
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (!showAddPasswordModal) {
+      setSuccessMessage("");
+    }
+  }, [showAddPasswordModal]);
 
   return (
     <Transition appear show={showAddPasswordModal} as={Fragment}>
@@ -128,6 +136,7 @@ const AddPasswordModal: FC = () => {
                       switchName="Autologin"
                     />
                   </div>
+                  <h1 className="mt-4">{successMessage}</h1>
                   <div className="mt-4">
                     <button
                       onClick={() => setShowAddPasswordModal(false)}
