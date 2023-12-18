@@ -104,6 +104,12 @@ const Web5ContextProvider: FC<WithChildren> = ({ children }) => {
             { who: "author", of: "cards", can: "read" },
           ],
         },
+        banks: {
+          $actions: [
+            { who: "anyone", can: "write" },
+            { who: "author", of: "banks", can: "read" },
+          ],
+        },
         documents: {
           $actions: [
             { who: "anyone", can: "write" },
