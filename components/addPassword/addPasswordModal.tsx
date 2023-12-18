@@ -4,6 +4,7 @@ import { useAddPasswordModalContext } from "./addPasswordModalContext";
 import SwitchComponent from "../switch";
 import { useWeb5Context } from "@/context/web5/web5Context";
 import axios from "axios";
+import { useAlertModalContext } from "../alert/alertModalContext";
 
 const AddPasswordModal: FC = () => {
   const { setShowAddPasswordModal, showAddPasswordModal } =
@@ -15,8 +16,16 @@ const AddPasswordModal: FC = () => {
   const [sitePassword, setSitePassword] = useState<string>("");
   const { did, web5, protocolDefinition } = useWeb5Context();
   const [loading, setLoading] = useState(false);
+  const { setShowAlertModal, setAlertTitle, setAlertMessage } =
+    useAlertModalContext();
 
   const savePassword = async () => {
+    if (!url || !name || !userName || !sitePassword) {
+      setAlertTitle("Invalid Inputs.");
+      setAlertMessage("enter valid password details.");
+      setShowAlertModal(true);
+      return;
+    }
     setLoading(true);
     const { record } = await web5.dwn.records.create({
       store: false,
