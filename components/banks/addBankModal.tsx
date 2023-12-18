@@ -5,6 +5,11 @@ import SwitchComponent from "../switch";
 
 const AddBankModal: FC = () => {
   const { setShowAddBankModal, showAddBankModal } = useAddBankModalContext();
+  const [bankName, setBankName] = useState<string>("");
+  const [accountType, setAccountType] = useState<string>("");
+  const [accountNumber, setAccountNumber] = useState<string>("");
+  const [swiftCode, setSwiftCode] = useState<string>("");
+  const [branchAddress, setBranchAddress] = useState<string>("");
   return (
     <Transition appear show={showAddBankModal} as={Fragment}>
       <Dialog
@@ -46,34 +51,47 @@ const AddBankModal: FC = () => {
                 <div className="mt-4">
                   <div>
                     <label>Bank Name</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <input
+                      type="text"
+                      value={bankName}
+                      onChange={(e) => setBankName(e.target.value)}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    />
                   </div>
                   <div className="mt-5">
                     <label>Account Type</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
-                  </div>
-                  <div className="mt-5">
-                    <label>Rounting Number</label>
-                    <input className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none" />
+                    <select
+                      onChange={(e) => setAccountType(e.target.value)}
+                      className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
+                    >
+                      <option value={"savings"}>Savings</option>
+                      <option value={"current"}>Current</option>
+                    </select>
                   </div>
                   <div className="mt-5">
                     <label>Account Number</label>
                     <input
-                      type="password"
+                      value={accountNumber}
+                      onChange={(e) => setAccountNumber(e.target.value)}
+                      type="number"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
                   <div className="mt-5">
                     <label>Swift Code</label>
                     <input
-                      type="password"
+                      value={swiftCode}
+                      onChange={(e) => setSwiftCode(e.target.value)}
+                      type="text"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
                   <div className="mt-5">
                     <label>Branch Address</label>
                     <input
-                      type="password"
+                      value={branchAddress}
+                      onChange={(e) => setBranchAddress(e.target.value)}
+                      type="text"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
