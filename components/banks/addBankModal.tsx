@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAddBankModalContext } from "./addBankModalContext";
-import SwitchComponent from "../switch";
+import { useAlertModalContext } from "@/components/alert/alertModalContext";
 
 const AddBankModal: FC = () => {
   const { setShowAddBankModal, showAddBankModal } = useAddBankModalContext();
@@ -10,6 +10,23 @@ const AddBankModal: FC = () => {
   const [accountNumber, setAccountNumber] = useState<string>("");
   const [swiftCode, setSwiftCode] = useState<string>("");
   const [branchAddress, setBranchAddress] = useState<string>("");
+  const { setAlertTitle, setAlertMessage, setShowAlertModal } =
+    useAlertModalContext();
+  const saveBankDetails = async () => {
+    console.log(accountType.length);
+    if (
+      !bankName ||
+      accountType.length == 0 ||
+      !accountNumber ||
+      !swiftCode ||
+      !branchAddress
+    ) {
+      setAlertTitle("Invalid input details.");
+      setAlertMessage("enter valid bank details to continue.");
+      setShowAlertModal(true);
+      return;
+    }
+  };
   return (
     <Transition appear show={showAddBankModal} as={Fragment}>
       <Dialog
@@ -64,6 +81,9 @@ const AddBankModal: FC = () => {
                       onChange={(e) => setAccountType(e.target.value)}
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     >
+                      <option value="default" disabled hidden>
+                        Select an option
+                      </option>
                       <option value={"savings"}>Savings</option>
                       <option value={"current"}>Current</option>
                     </select>
@@ -95,18 +115,14 @@ const AddBankModal: FC = () => {
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
                   </div>
-                  {/* <div className="mt-3">
-                    <SwitchComponent
-                      enabled={autoLogin}
-                      setEnabled={setAutoLogin}
-                      switchName="Autologin"
-                    />
-                  </div> */}
                   <div className="mt-4">
                     <button className="bg-primaryBackground px-4 py-2 border-2">
                       Cancel
                     </button>
-                    <button className="px-4 py-2 border-2 text-slate-950 bg-primary ml-2">
+                    <button
+                      onClick={saveBankDetails}
+                      className="px-4 py-2 border-2 text-slate-950 bg-primary ml-2"
+                    >
                       Save
                     </button>
                   </div>
