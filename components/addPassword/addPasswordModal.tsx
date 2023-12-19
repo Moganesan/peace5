@@ -56,6 +56,19 @@ const AddPasswordModal: FC = () => {
     }
   }, [showAddPasswordModal]);
 
+  function generatePassword() {
+    const length = 18;
+    const charset =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
+    let password = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset.charAt(randomIndex);
+    }
+    setSitePassword(password);
+  }
+
   return (
     <Transition appear show={showAddPasswordModal} as={Fragment}>
       <Dialog
@@ -125,9 +138,12 @@ const AddPasswordModal: FC = () => {
                     <input
                       value={sitePassword}
                       onChange={(e) => setSitePassword(e.target.value)}
-                      type="password"
+                      type="text"
                       className="w-full bg-primaryBackground border-2 px-2 py-2 outline-none"
                     />
+                    <button className="mt-2" onClick={() => generatePassword()}>
+                      Generate Password
+                    </button>
                   </div>
                   <div className="mt-3">
                     <SwitchComponent
