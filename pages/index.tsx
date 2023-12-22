@@ -141,7 +141,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (web5) {
+    if (web5 && protocolDefinition) {
       fetchPasswords();
       fetchCards();
       fetchBankAccounts();
