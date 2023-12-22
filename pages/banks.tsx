@@ -19,7 +19,7 @@ const Banks = () => {
     BankAccount[] | null
   >(null);
   useEffect(() => {
-    if (web5) fetchBankAccounts();
+    if (web5 && protocolDefinition) fetchBankAccounts();
   }, [web5]);
 
   const fetchBankAccounts = async () => {

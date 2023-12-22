@@ -18,7 +18,7 @@ const Passwords = () => {
   const [savedPasswords, setSavedPasswords] = useState<Password[] | null>(null);
 
   useEffect(() => {
-    if (web5) {
+    if (web5 && protocolDefinition) {
       console.log("Mydid", did);
       fetchPasswords();
     }

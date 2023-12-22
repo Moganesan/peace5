@@ -19,7 +19,7 @@ const Cards = () => {
   const [savedCards, setSavedCards] = useState<Card[] | null>(null);
 
   useEffect(() => {
-    if (web5) {
+    if (web5 && protocolDefinition) {
       fetchCards();
     }
   }, [web5]);
