@@ -11,6 +11,8 @@ import { AddCardModalContextProvidet } from "@/components/addCard/addCardModalCo
 import AddBankModal from "@/components/banks/addBankModal";
 import { AddBankModalContextProvider } from "@/components/banks/addBankModalContext";
 import { AlertModalContextProvider } from "@/components/alert/alertModalContext";
+import { RegisterModalContextProvider } from "@/components/auth/register/registerModalContext";
+import RegisterModal from "@/components/auth/register/registerModal";
 import AlertModal from "@/components/alert/alertModal";
 
 const font = VT323({ subsets: ["latin"], weight: "400" });
@@ -25,14 +27,17 @@ export default function App({ Component, pageProps }: AppProps) {
           <AddPasswordModalContextProvider>
             <AddCardModalContextProvidet>
               <AddBankModalContextProvider>
-                <main className={font.className}>
-                  <Component {...pageProps} />
-                  <ReactQueryDevtools initialIsOpen />
-                  <AddPasswordModal />
-                  <AlertModal />
-                  <AddCardModal />
-                  <AddBankModal />
-                </main>
+                <RegisterModalContextProvider>
+                  <main className={font.className}>
+                    <Component {...pageProps} />
+                    <ReactQueryDevtools initialIsOpen />
+                    <AddPasswordModal />
+                    <AlertModal />
+                    <AddCardModal />
+                    <AddBankModal />
+                    <RegisterModal />
+                  </main>
+                </RegisterModalContextProvider>
               </AddBankModalContextProvider>
             </AddCardModalContextProvidet>
           </AddPasswordModalContextProvider>
